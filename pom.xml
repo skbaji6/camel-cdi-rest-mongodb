@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	You under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.cogninus.test</groupId>
+	<artifactId>camel-cdi-rest-mongodb</artifactId>
+	<name>Camel :: CDI :: REST :: MONGODB :: Servlet</name>
+	<description>CAMEL- REST DSL - CDI - MONGODB</description>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<properties>
+		<cdi-api-1.2-version>1.2</cdi-api-1.2-version>
+		<hamcrest-version>2.0.0.0</hamcrest-version>
+		<arquillian-version>1.4.0.Final</arquillian-version>
+		<shrinkwrap-descriptors-version>2.0.0-alpha-10</shrinkwrap-descriptors-version>
+		<weld2-version>2.4.7.Final</weld2-version>
+		<jetty9-version>9.4.6.v20170531</jetty9-version>
+		<log4j2-version>2.8.2</log4j2-version>
+		<junit-version>4.12</junit-version>
+	</properties>
+
+	<dependencies>
+
+		<!-- CDI API -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>${cdi-api-1.2-version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Camel -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-cdi</artifactId>
+			<version>2.22.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-servlet</artifactId>
+			<version>2.22.0</version>
+			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-logging-juli</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- logging -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j2-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j2-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j2-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-jcl</artifactId>
+			<version>${log4j2-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-web</artifactId>
+			<version>${log4j2-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>java-hamcrest</artifactId>
+			<version>${hamcrest-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<version>${arquillian-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.testenricher</groupId>
+			<artifactId>arquillian-testenricher-resource</artifactId>
+			<version>${arquillian-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.descriptors</groupId>
+			<artifactId>shrinkwrap-descriptors-depchain</artifactId>
+			<version>${shrinkwrap-descriptors-version}</version>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet</artifactId>
+			<version>${weld2-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-deploy</artifactId>
+			<version>${jetty9-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+
+
+ <dependency>
+		<groupId>org.json</groupId>
+		<artifactId>json</artifactId>
+		<version>20160212</version>
+	</dependency>
+	<!-- Import the MongoDB driver -->
+	<dependency>
+		<groupId>org.mongodb</groupId>
+		<artifactId>mongo-java-driver</artifactId>
+		<version>3.2.2</version>
+	</dependency>   	
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>jetty</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-webapp</artifactId>
+					<version>${jetty9-version}</version>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-annotations</artifactId>
+					<version>${jetty9-version}</version>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.container</groupId>
+					<artifactId>arquillian-jetty-embedded-9</artifactId>
+					<version>1.0.0.CR3</version>
+					<scope>test</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>org.jboss.arquillian.container</groupId>
+							<artifactId>arquillian-container-spi</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jdk9+-build-jetty</id>
+			<activation>
+				<jdk>[9,)</jdk>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-webapp</artifactId>
+					<version>${jetty9-version}</version>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-annotations</artifactId>
+					<version>${jetty9-version}</version>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.container</groupId>
+					<artifactId>arquillian-jetty-embedded-9</artifactId>
+					<version>1.0.0.CR3</version>
+					<scope>test</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>org.jboss.arquillian.container</groupId>
+							<artifactId>arquillian-container-spi</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<argLine>--add-modules java.xml.bind --add-opens
+								java.base/java.lang=ALL-UNNAMED</argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<!-- allows running this example with mvn jetty:run -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty9-version}</version>
+			</plugin>
+		</plugins>
+	</build>
+</project>
